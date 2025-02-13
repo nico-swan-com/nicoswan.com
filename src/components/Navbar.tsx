@@ -13,12 +13,12 @@ const Navbar = () => {
  
   const navigation = [
     { name: "Home", path: "/" },
-    { name: "About", path: "/about" },
-    { name: "Experience", path: "/experience" },
-    { name: "Skills", path: "/skills" },
-    { name: "Portfolio", path: "/portfolio" },
-    { name: "Testimonials", path: "/testimonials" },
-    { name: "Contact", path: "/contact" },
+    // { name: "About", path: "/about" },
+    // { name: "Experience", path: "/experience" },
+    // { name: "Skills", path: "/skills" },
+    // { name: "Portfolio", path: "/portfolio" },
+    // { name: "Testimonials", path: "/testimonials" },
+    // { name: "Contact", path: "/contact" },
   ];
 
   useEffect(() => {

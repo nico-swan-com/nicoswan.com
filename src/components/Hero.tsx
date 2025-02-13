@@ -56,7 +56,7 @@ const Hero = () => {
           }`}
           aria-label="Scroll down"
         >
-          <ArrowDownCircle size={32} />
+          {/* <ArrowDownCircle size={32} /> */}
         </button>
       </div>
     </div>
