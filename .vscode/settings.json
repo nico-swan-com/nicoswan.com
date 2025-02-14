@@ -2,6 +2,7 @@
     "conventionalCommits.scopes": [
         "navigation",
         "hero",
-        "about"
+        "about",
+        "not-found"
     ]
 }
