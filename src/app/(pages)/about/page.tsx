@@ -122,7 +122,7 @@ const About = () => {
                 Continuous Learning
               </h3>
               <p className="text-gray-300">
-                Technology evolves rapidly, and I'm committed to staying at the
+                Technology evolves rapidly, and I&apos;m committed to staying at the
                 forefront. I regularly explore new technologies and
                 methodologies to bring innovative solutions to complex problems.
               </p>
