@@ -86,18 +86,7 @@ jobs:
         with:
           name: build-artifacts
           overwrite: true
-          path: |
-            ./out
-            ./components.json
-            ./node_modules
-            ./package.json
-            ./package-lock.json
-            ./public
-            ./server.js 
-
-  # Deployment job
-  deploy:
-    runs-on: ubuntu-latest
+          path: |actions/upload-artifact@v4    runs-on: ubuntu-latest
     environment: production
     needs: build
     steps:
@@ -108,14 +97,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: build-artifacts
-          path: |
-            ./out
-            ./components.json
-            ./node_modules
-            ./package.json
-            ./package-lock.json
-            ./public
-            ./server.js  
+          path: ./  
 
       - name: Deploy to cPanel via FTP
         id: deployment
