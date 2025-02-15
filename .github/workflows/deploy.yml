@@ -72,10 +72,10 @@ jobs:
 
       - name: Update env with secrets
         run: |
-          touch .env.local
-          echo "# environment config" > .env.local
-          echo MONGO_URL=${{ secrets.MONGO_URL }} >> .env.local
-          echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env.local
+          touch .env.production
+          echo "# environment config" > .env.production
+          echo MONGO_URL=${{ secrets.MONGO_URL }} >> .env.production
+          echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env.production
 
       - name: Build with Next.js
         run: |
