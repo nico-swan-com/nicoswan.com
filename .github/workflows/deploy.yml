@@ -86,7 +86,6 @@ jobs:
         with:
           name: build-artifacts
           overwrite: true
-          include-hidden-files: true
           path: |
             ./out
             ./components.json
