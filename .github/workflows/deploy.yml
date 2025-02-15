@@ -86,7 +86,18 @@ jobs:
         with:
           name: build-artifacts
           overwrite: true
-          path: |actions/upload-artifact@v4    runs-on: ubuntu-latest
+          path: |
+            ./out
+            ./components.json
+            ./node_modules
+            ./package.json
+            ./package-lock.json
+            ./public
+            ./server.js 
+
+  # Deployment job
+  deploy:
+    runs-on: ubuntu-latest
     environment: production
     needs: build
     steps:
