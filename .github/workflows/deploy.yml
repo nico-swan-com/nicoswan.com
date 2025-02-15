@@ -88,8 +88,8 @@ jobs:
           overwrite: true
           include-hidden-files: true
           path: |
-          **
-          !.git/**
+            **
+            !.git/**
 
   # Deployment job
   deploy:
