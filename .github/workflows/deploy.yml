@@ -80,16 +80,27 @@ jobs:
       - name: Build with Next.js
         run: ${{ steps.detect-package-manager.outputs.runner }} next build
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
         with:
-          path: ./
+          name: build-artifacts
+          path: _next/
 
   # Deployment job
   deploy:
     runs-on: ubuntu-latest
+    environment: production
     needs: build
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: build-artifacts
+          path: _next/
+
       - name: Deploy to cPanel via FTP
         id: deployment
         uses: SamKirkland/FTP-Deploy-Action@4.3.3
@@ -97,7 +108,7 @@ jobs:
           server: ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./
+          local-dir: .next/
           server-dir: /home/nicoswan/website-app/
           protocol: ftp
           timeout: 300000
