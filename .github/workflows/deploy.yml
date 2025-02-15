@@ -104,7 +104,6 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: build-artifacts
-          path: ./
           merge-multiple: true
 
       - name: Deploy to cPanel via FTP
