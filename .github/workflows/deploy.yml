@@ -87,7 +87,9 @@ jobs:
           name: build-artifacts
           overwrite: true
           include-hidden-files: true
-          path: ./
+          path: |
+          **
+          !.git/**
 
   # Deployment job
   deploy:
@@ -102,8 +104,8 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: build-artifacts
-          path: ./
-          merge-multiple: true
+#          path: ./  
+#          merge-multiple: true
 
       - name: Deploy to cPanel via FTP
         id: deployment
