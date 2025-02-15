@@ -85,8 +85,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: build-artifacts
-          overwrite: true
-          path: ./out 
+          path: ./
 
   # Deployment job
   deploy:
