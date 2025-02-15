@@ -6,6 +6,16 @@ const defaultConfig: NextConfig = {
   distDir: '_next'
 };
 
+const customServerConfig: NextConfig = {
+  distDir: 'standalone',
+  /**
+  * Enable static exports.
+  *
+  * @see https://nextjs.org/docs/app/building-your-application/configuring/custom-server
+  */
+  output: 'standalone',
+};
+
 const staticConfig: NextConfig = {
   /**
   * Enable static exports.
@@ -25,6 +35,17 @@ const staticConfig: NextConfig = {
   },
 };
 
-const nextConfig = String(BUILD_TYPE).toUpperCase() === 'STATIC' ? staticConfig : defaultConfig  
+let nextConfig = defaultConfig
+switch (String(BUILD_TYPE).toUpperCase()) {
+  case 'STATIC':
+    nextConfig = staticConfig
+    break;
+    case 'CPANEL CUSTOM SERVER':
+      nextConfig = customServerConfig
+      break;
+  default:
+    nextConfig = defaultConfig
+    break;
+}
 
 export default nextConfig;
