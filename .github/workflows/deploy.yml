@@ -56,9 +56,6 @@ jobs:
           node-version: "lts/*"
           cache: ${{ steps.detect-package-manager.outputs.manager }}
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-
       - name: Restore cache
         uses: actions/cache@v4
         with:
@@ -73,6 +70,13 @@ jobs:
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
 
+      - name: Update env with secrets
+        run: |
+          touch .env.local
+          echo "# environment config" > .env.local
+          echo MONGO_URL=${{ secrets.MONGO_URL }} >> .env.local
+          echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env.local
+
       - name: Build with Next.js
         run: ${{ steps.detect-package-manager.outputs.runner }} next build
 
@@ -83,12 +87,17 @@ jobs:
 
   # Deployment job
   deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - name: Deploy to GitHub Pages
+      - name: Deploy to cPanel via FTP
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: SamKirkland/FTP-Deploy-Action@4.3.3
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./  # This points to the build output directory of your Next.js app
+          server-dir: /
+          protocol: ftps
+          timeout: 300000  # Set a longer timeout value in milliseconds (here, 2 minutes)
