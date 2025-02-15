@@ -86,14 +86,7 @@ jobs:
         with:
           name: build-artifacts
           overwrite: true
-          path: |
-            ./out
-            ./components.json
-            ./node_modules
-            ./package.json
-            ./package-lock.json
-            ./public
-            ./server.js 
+          path: ./out 
 
   # Deployment job
   deploy:
