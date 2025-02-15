@@ -83,7 +83,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./
+          path: ./_next
 
   # Deployment job
   deploy:
@@ -97,7 +97,7 @@ jobs:
           server: ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./  # This points to the build output directory of your Next.js app
-          server-dir: /home/nicoswan/website-app
+          local-dir: ./
+          server-dir: /home/nicoswan/website-app/
           protocol: ftps
-          timeout: 300000  # Set a longer timeout value in milliseconds (here, 2 minutes)
+          timeout: 300000
