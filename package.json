@@ -5,6 +5,8 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
+    "build:static": "NODE_ENV=static next build",
+    "start:next": "next start",
     "start": "NODE_ENV=production node server.js",
     "lint": "next lint"
   },

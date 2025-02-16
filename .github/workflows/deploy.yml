@@ -85,20 +85,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: build-artifacts
-          path: ./
-
-      - name: Update env with secrets
-        run: |
-          touch .env.production
-          echo "# environment config" > .env.production
-          echo MONGO_URL=${{ secrets.MONGO_URL }} >> .env.production
-          echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env.production      
-
-      - name: Upload build output artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-artifacts
-          path: ./
+          path: ./    
 
   build-static-site:
     runs-on: ubuntu-latest
@@ -143,36 +130,17 @@ jobs:
 
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
-
-      - name: Update env with secrets
-        run: |
-          touch .env.production
-          echo "# environment config" > .env.production
-          echo MONGO_URL=${{ secrets.MONGO_URL }} >> .env.production
-          echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env.production  
-
+    
       - name: Build with Next.js
         run: |
-           ${{ steps.detect-package-manager.outputs.runner }} next build
+           ${{ steps.detect-package-manager.outputs.runner }} run build:static
+           ls -ltra
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: build-artifacts
-          path: ./
-
-      - name: Update env with secrets
-        run: |
-          touch .env.production
-          echo "# environment config" > .env.production
-          echo MONGO_URL=${{ secrets.MONGO_URL }} >> .env.production
-          echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env.production      
-
-      - name: Upload build output artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-artifacts
-          path: ./            
+          name: build-static-artifacts
+          path: ./   
 
   # Deployment job cygnus hosting cpanel
   deploy-cyngus-hosting:
