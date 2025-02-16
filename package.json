@@ -6,6 +6,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "build:static": "NODE_ENV=static next build",
+    "build:standalone": "BUILD_TYPE=standalone next build && tsc --project tsconfig.standalone.json",
+    "build:server": "tsc --project tsconfig.standalone.json",
     "start:next": "next start",
     "start": "NODE_ENV=production node server.js",
     "lint": "next lint"
