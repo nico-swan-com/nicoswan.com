@@ -110,6 +110,6 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./
-          server-dir: /home/nicoswan/website-app/
+          server-dir: /home/nicoswan/website-next-app/
           protocol: ftp
           timeout: 300000
