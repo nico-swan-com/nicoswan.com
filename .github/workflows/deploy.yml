@@ -113,3 +113,12 @@ jobs:
           server-dir: /home/nicoswan/website-next-app/
           protocol: ftp
           timeout: 300000
+
+      - name: executing remote ssh commands using ssh key
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_DEPLOYER_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: whoami  
