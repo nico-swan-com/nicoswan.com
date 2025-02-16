@@ -75,10 +75,10 @@ jobs:
           touch .env.production
           echo "# environment config" > .env.production
           echo MONGO_URL=${{ secrets.MONGO_URL }} >> .env.production
-          echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env.production  
+          echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env.production
 
       - name: Build with Next.js
-        env: 
+        env:
           BUILD_TYPE: server side application
         run: |
           echo "Building for $BUILD_TYPE"
@@ -88,7 +88,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: build-artifacts
-          path: ./    
+          path: ./
 
   build-static-site:
     runs-on: ubuntu-latest
@@ -133,13 +133,13 @@ jobs:
 
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
-    
+
       - name: Build with Next.js
         env:
           BUILD_TYPE: static
         run: |
-           echo "Building $BUILD_TYPE"
-           ${{ steps.detect-package-manager.outputs.runner }} next build
+          echo "Building $BUILD_TYPE"
+          ${{ steps.detect-package-manager.outputs.runner }} next build
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
@@ -150,7 +150,7 @@ jobs:
       - name: Upload artifact for Gitbub pages
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./out       
+          path: ./out
 
   # Deployment job cygnus hosting cpanel node application
   deploy-cyngus-hosting:
@@ -165,33 +165,14 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: build-artifacts
-          path: ./
-
-      - name: Create server.js
-        uses: 1arp/create-a-file-action@0.4.5
-        with:
-          path: './'
-          isAbsolutePath: false
-          file: 'server.js'
-          content: |
-            // Custom start for cpanel node-app
-            const { createServer } = require('http');
-            const { parse } = require('url');
-            const next = require('next');
-
-            const dev = process.env.NODE_ENV !== 'production';
-            const app = next({ dev });
-            const handle = app.getRequestHandler();
-
-            app.prepare().then(() => {
-              createServer((req, res) => {
-                const parsedUrl = parse(req.url, true);
-                handle(req, res, parsedUrl);
-              }).listen(3000, (err) => {
-                if (err) throw err;
-                console.log('> Ready on http://localhost:3000');
-              });
-            });         
+          path: |
+            ./_next
+            ./node_modules
+            ./server.js
+            ./package.json
+            ./package-lock.json
+            ./public
+            ./next.config.ts
 
       - name: Deploy to cPanel via FTP
         id: deployment
@@ -205,8 +186,7 @@ jobs:
           protocol: ftp
           timeout: 300000
 
-
- # Deployment job to github pages
+  # Deployment job to github pages
   deploy-github-pages:
     environment:
       name: github-pages
@@ -218,7 +198,7 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
-# Deployment job
+  # Deployment job
   deploy-cyngus-lab:
     runs-on: ubuntu-latest
     environment: production
@@ -231,7 +211,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: build-artifacts
-          path: ./  
+          path: ./
 
       - name: Deploy to cygnus-labs.com kubernetes
         uses: appleboy/ssh-action@v1.2.0
@@ -240,4 +220,4 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_DEPLOYER_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
-          script: whoami  
+          script: whoami
