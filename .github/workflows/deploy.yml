@@ -157,6 +157,11 @@ jobs:
     environment: production
     needs: build
     steps:
+      - name: Download standalone build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts
+
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
@@ -254,10 +259,7 @@ jobs:
     environment: production
     needs: build-standalone
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Download build artifacts
+      - name: Download standalone build artifacts
         uses: actions/download-artifact@v4
         with:
           name: build-standalone-artifacts
@@ -292,9 +294,6 @@ jobs:
     environment: production
     needs: build
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
       - name: Download build artifacts
         uses: actions/download-artifact@v4
         with:
