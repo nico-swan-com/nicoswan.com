@@ -214,7 +214,14 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: build-standalone-artifacts
-          path: ./
+          path: |
+            ./_next
+            ./node_modules
+            ./server.js
+            ./package.json
+            ./package-lock.json
+            ./public
+            ./next.config.ts
 
   # Deployment job cygnus hosting cpanel node application
   deploy-cyngus-hosting:
@@ -229,14 +236,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: build-standalone-artifacts
-          path: |
-            ./_next
-            ./node_modules
-            ./server.js
-            ./package.json
-            ./package-lock.json
-            ./public
-            ./next.config.ts
+          path: ./
 
       - name: Deploy to cPanel via FTP
         id: deployment
