@@ -40,7 +40,7 @@ switch (String(BUILD_TYPE).toUpperCase()) {
   case "STATIC":
     nextConfig = staticConfig;
     break;
-  case "CPANEL CUSTOM SERVER":
+  case "STANDALONE":
     nextConfig = customServerConfig;
     break;
   default:
