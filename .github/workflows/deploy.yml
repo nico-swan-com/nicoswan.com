@@ -75,7 +75,7 @@ jobs:
           touch .env.production
           echo "# environment config" > .env.production
           echo MONGO_URL=${{ secrets.MONGO_URL }} >> .env.production
-          echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env.production
+          echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env.production  
 
       - name: Build with Next.js
         run: |
@@ -87,8 +87,8 @@ jobs:
           name: build-artifacts
           path: ./
 
-  # Deployment job
-  deploy:
+  # Deployment job cygnus hosting cpanel
+  deploy-cyngus-hosting:
     runs-on: ubuntu-latest
     environment: production
     needs: build
@@ -100,7 +100,33 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: build-artifacts
-          path: ./  
+          path: ./
+
+      - name: Create server.js
+        uses: 1arp/create-a-file-action@0.4.5
+        with:
+          path: './'
+          isAbsolutePath: false
+          file: 'server.js'
+          content: |
+            // Custom start for cpanel node-app
+            const { createServer } = require('http');
+            const { parse } = require('url');
+            const next = require('next');
+
+            const dev = process.env.NODE_ENV !== 'production';
+            const app = next({ dev });
+            const handle = app.getRequestHandler();
+
+            app.prepare().then(() => {
+              createServer((req, res) => {
+                const parsedUrl = parse(req.url, true);
+                handle(req, res, parsedUrl);
+              }).listen(3000, (err) => {
+                if (err) throw err;
+                console.log('> Ready on http://localhost:3000');
+              });
+            });         
 
       - name: Deploy to cPanel via FTP
         id: deployment
@@ -114,7 +140,23 @@ jobs:
           protocol: ftp
           timeout: 300000
 
-      - name: executing remote ssh commands using ssh key
+
+# Deployment job
+  deploy-cyngus-lab:
+    runs-on: ubuntu-latest
+    environment: production
+    needs: build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts
+          path: ./  
+
+      - name: Deploy to cygnus-labs.com kubernetes
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.SSH_HOST }}
