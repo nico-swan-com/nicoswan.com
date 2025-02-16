@@ -79,7 +79,7 @@ jobs:
 
       - name: Build with Next.js
         env: 
-          BUILD_TYPE=server side application
+          BUILD_TYPE: server side application
         run: |
           echo "Building for $BUILD_TYPE"
           ${{ steps.detect-package-manager.outputs.runner }} next build
