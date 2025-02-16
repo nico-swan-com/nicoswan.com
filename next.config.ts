@@ -1,6 +1,6 @@
 import type { NextConfig } from "next";
 
-const { NODE_ENV } = process.env
+const { BUILD_TYPE } = process.env
 
 const defaultConfig: NextConfig = {
   distDir: '_next'
@@ -25,6 +25,6 @@ const staticConfig: NextConfig = {
   },
 };
 
-const nextConfig = String(NODE_ENV).toUpperCase() === 'STATIC' ? staticConfig : defaultConfig  
+const nextConfig = String(BUILD_TYPE).toUpperCase() === 'STATIC' ? staticConfig : defaultConfig  
 
 export default nextConfig;

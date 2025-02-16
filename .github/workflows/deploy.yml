@@ -78,8 +78,11 @@ jobs:
           echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env.production  
 
       - name: Build with Next.js
+        env: 
+          BUILD_TYPE=server side application
         run: |
-           ${{ steps.detect-package-manager.outputs.runner }} next build
+          echo "Building for $BUILD_TYPE"
+          ${{ steps.detect-package-manager.outputs.runner }} next build
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
@@ -133,19 +136,23 @@ jobs:
     
       - name: Build with Next.js
         env:
-          NODE_ENV: static
+          BUILD_TYPE: static
         run: |
-           echo "Building $NODE_ENV"
+           echo "Building $BUILD_TYPE"
            ${{ steps.detect-package-manager.outputs.runner }} next build
-           ls -ltra
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
           name: build-static-artifacts
-          path: ./   
+          path: ./out
 
-  # Deployment job cygnus hosting cpanel
+      - name: Upload artifact for Gitbub pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./out       
+
+  # Deployment job cygnus hosting cpanel node application
   deploy-cyngus-hosting:
     runs-on: ubuntu-latest
     environment: production
@@ -198,6 +205,18 @@ jobs:
           protocol: ftp
           timeout: 300000
 
+
+ # Deployment job to github pages
+  deploy-github-pages:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build-static-site
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
 
 # Deployment job
   deploy-cyngus-lab:
