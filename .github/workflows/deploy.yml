@@ -132,8 +132,11 @@ jobs:
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
     
       - name: Build with Next.js
+        env:
+          NODE_ENV=static
         run: |
-           ${{ steps.detect-package-manager.outputs.runner }} run build:static
+           echo "Building $NODE_ENV"
+           ${{ steps.detect-package-manager.outputs.runner }} next build
            ls -ltra
 
       - name: Upload build artifacts
