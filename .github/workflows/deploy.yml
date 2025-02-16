@@ -133,7 +133,7 @@ jobs:
     
       - name: Build with Next.js
         env:
-          NODE_ENV=static
+          NODE_ENV: static
         run: |
            echo "Building $NODE_ENV"
            ${{ steps.detect-package-manager.outputs.runner }} next build
