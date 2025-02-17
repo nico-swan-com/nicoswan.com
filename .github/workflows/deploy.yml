@@ -197,7 +197,15 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt update && sudo apt install -y gettext-base  && apt-get clean && rm -rf /var/lib/apt/lists/*
-  
+
+      - name: Template update
+        env:
+          CI_PROJECT_NAME: nicoswan-com
+        run: |
+          envsubst < ./deploy/deploy.tmpl > ./deploy.yaml
+          cat ./deploy.yaml
+   
+
       - name: Deploy kubernetes
         uses: actions-hub/kubectl@master
         env:
