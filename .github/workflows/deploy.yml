@@ -191,12 +191,14 @@ jobs:
     needs: deploy-dockerhub
 
     steps:
-      - name: Checkout 
-        uses: actions/checkout@v4
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts
 
       - name: Install dependencies
         run: |
-          sudo apt update && sudo apt install -y gettext-base 
+          apt update && apt install -y gettext-base 
 
       - name: Template update
         env:
@@ -211,7 +213,15 @@ jobs:
         env:
           KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
         with:
-          args: get pods        
+          args: get pods    
+
+#  - name: Apply Kubernetes configuration
+#       run: |
+#         kubectl apply -f ./deploy.yaml --validate=false
+
+#     - name: Check rollout status
+#       run: |
+#         kubectl rollout status deployment/${{ secrets.CI_PROJECT_NAME }}             
 
 
   build-standalone:
