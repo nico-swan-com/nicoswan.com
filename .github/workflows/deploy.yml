@@ -207,7 +207,6 @@ jobs:
           envsubst < ./deploy/deploy.tmpl > ./deploy.yaml
           cat ./deploy.yaml
    
-
       - name: Deploy kubernetes
         uses: actions-hub/kubectl@master
         env:
