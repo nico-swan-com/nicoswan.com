@@ -219,7 +219,7 @@ jobs:
         env:
           KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
         with:
-          args: rollout status deployment/$CI_PROJECT_NAME                    
+          args: rollout status deployment/nicoswan-com                   
 
 
   build-standalone:
