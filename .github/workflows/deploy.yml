@@ -198,7 +198,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          apt update && apt install -y gettext-base 
+          sudo apt update && sudo apt install -y gettext-base  && sudo apt-get clean && sudo rm -rf /var/lib/apt/lists/*
 
       - name: Template update
         env:
