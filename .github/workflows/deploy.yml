@@ -27,6 +27,7 @@ concurrency:
 jobs:
   # Build job
   build:
+    name: Build default
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -91,6 +92,7 @@ jobs:
           path: ./
 
   build-static-site:
+    name: Build static site
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -153,6 +155,7 @@ jobs:
           path: ./out
 
   deploy-dockerhub:
+    name: Build Publish docker image to docker hub (nicoswan/nicoswan-com)
     runs-on: ubuntu-latest
     environment: production
     needs: build
@@ -182,7 +185,7 @@ jobs:
           tags: nicoswan/nicoswan-com:latest
 
   deploy-kubernetes:
-    name: Deploy
+    name: Deploy to Kubernetes cygnus-labs.com
     runs-on: ubuntu-latest
     environment: production
     needs: deploy-dockerhub
@@ -204,6 +207,7 @@ jobs:
 
 
   build-standalone:
+    name: Build standalone
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -276,6 +280,7 @@ jobs:
 
   # Deployment job cygnus hosting cpanel node application
   deploy-cyngus-hosting:
+    name: Deploy to cygnus-hosting
     runs-on: ubuntu-latest
     environment: production
     needs: build-standalone
@@ -299,6 +304,7 @@ jobs:
 
   # Deployment job to github pages
   deploy-github-pages:
+    name: Deploy to Github pages
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
