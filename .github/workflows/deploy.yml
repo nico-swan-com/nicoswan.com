@@ -81,6 +81,7 @@ jobs:
       - name: Build with Next.js
         env:
           BUILD_TYPE: server side application
+          NEXT_TELEMETRY_DISABLED: 1
         run: |
           echo "Building for $BUILD_TYPE"
           ${{ steps.detect-package-manager.outputs.runner }} next build
@@ -139,6 +140,7 @@ jobs:
       - name: Build with Next.js
         env:
           BUILD_TYPE: static
+          NEXT_TELEMETRY_DISABLED: 1
         run: |
           echo "Building $BUILD_TYPE"
           ${{ steps.detect-package-manager.outputs.runner }} next build
@@ -280,6 +282,7 @@ jobs:
       - name: Build with Next.js
         env:
           BUILD_TYPE: standalone
+          NEXT_TELEMETRY_DISABLED: 1
         run: |
           echo "Building for $BUILD_TYPE"
           ${{ steps.detect-package-manager.outputs.runner }} next build && tsc --project tsconfig.standalone.json
